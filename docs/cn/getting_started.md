@@ -18,29 +18,24 @@ brpc depends on following packages:
 ## Ubuntu/LinuxMint/WSL
 ### Prepare deps
 
-Install common deps:
+Install common deps, [gflags](https://github.com/gflags/gflags), [protobuf](https://github.com/google/protobuf), [leveldb](https://github.com/google/leveldb):
 ```shell
-sudo apt-get install git g++ make libssl-dev
-```
-
-Install [gflags](https://github.com/gflags/gflags), [protobuf](https://github.com/google/protobuf), [leveldb](https://github.com/google/leveldb):
-```shell
-sudo apt-get install libgflags-dev libprotobuf-dev libprotoc-dev protobuf-compiler libleveldb-dev
+sudo apt-get install -y git g++ make libssl-dev libgflags-dev libprotobuf-dev libprotoc-dev protobuf-compiler libleveldb-dev
 ```
 
 If you need to statically link leveldb:
 ```shell
-sudo apt-get install libsnappy-dev
+sudo apt-get install -y libsnappy-dev
 ```
 
 If you need to enable cpu/heap profilers in examples:
 ```shell
-sudo apt-get install libgoogle-perftools-dev
+sudo apt-get install -y libgoogle-perftools-dev
 ```
 
 If you need to run tests, install and compile libgtest-dev (which is not compiled yet):
 ```shell
-sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo cmake . && sudo make && sudo mv libgtest* /usr/lib/ && cd -
+sudo apt-get install -y cmake libgtest-dev && cd /usr/src/gtest && sudo cmake . && sudo make && sudo mv libgtest* /usr/lib/ && cd -
 ```
 The directory of gtest source code may be changed, try `/usr/src/googletest/googletest` if `/usr/src/gtest` is not there.
 
@@ -99,9 +94,7 @@ Examples link brpc statically, if you need to link the shared version, use `cmak
 
 **Run tests**
 ```shell
-$ mkdir bld && cd bld && cmake -DBUILD_UNIT_TESTS=ON .. && make
-$ cd test
-$ sh run_tests.sh
+$ mkdir bld && cd bld && cmake -DBUILD_UNIT_TESTS=ON .. && make && make test
 ```
 
 ## Fedora/CentOS
@@ -191,9 +184,7 @@ Examples link brpc statically, if you need to link the shared version, use `cmak
 
 **Run tests**
 ```shell
-$ mkdir bld && cd bld && cmake -DBUILD_UNIT_TESTS=ON .. && make
-$ cd test
-$ sh run_tests.sh
+$ mkdir bld && cd bld && cmake -DBUILD_UNIT_TESTS=ON .. && make && make test
 ```
 
 ## Linux with self-built deps
@@ -276,7 +267,7 @@ brew install gperftools
 
 If you need to run tests, install and compile googletest (which is not compiled yet):
 ```shell
-git clone https://github.com/google/googletest && cd googletest/googletest && mkdir bld && cd bld && cmake .. && make && sudo mv libgtest* /usr/lib/ && cd -
+git clone https://github.com/google/googletest && cd googletest/googletest && mkdir bld && cd bld && cmake -DCMAKE_CXX_FLAGS="-std=c++11" .. && make && sudo mv libgtest* /usr/lib/ && cd -
 ```
 
 ### Compile brpc with config_brpc.sh
@@ -331,9 +322,7 @@ Examples link brpc statically, if you need to link the shared version, use `cmak
 
 **Run tests**
 ```shell
-$ mkdir bld && cd bld && cmake -DBUILD_UNIT_TESTS=ON .. && make
-$ cd test
-$ sh run_tests.sh
+$ mkdir bld && cd bld && cmake -DBUILD_UNIT_TESTS=ON .. && make && make test
 ```
 
 # Supported deps
@@ -356,7 +345,7 @@ no known issues.
 
 no known issues.
 
-## protobuf: 2.4-3.4
+## protobuf: 2.4+
 
 Be compatible with pb 3.x and pb 2.x with the same file:
 Don't use new types in proto3 and start the proto file with `syntax="proto2";`
@@ -364,7 +353,7 @@ Don't use new types in proto3 and start the proto file with `syntax="proto2";`
 
 Arena in pb 3.x is not supported yet.
 
-## gflags: 2.0-2.21
+## gflags: 2.0-2.2.1
 
 no known issues.
 
